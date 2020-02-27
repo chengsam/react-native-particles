@@ -74,7 +74,7 @@ export class Emitter extends React.Component<EmitterType> {
                      */
       const particle = emitParticle(
         initialPosition,
-        fromAngle(toRadians(direction), speed),
+        fromAngle(toRadians((Math.random() * (1 - 0.5) + 0.5) * direction), speed),
         toRadians(spread),
         //Apply gravity to the vertical axis
         Vector(0, gravity),
@@ -101,17 +101,18 @@ export class Emitter extends React.Component<EmitterType> {
 
   _animateParticle = (path, transformValue, opacityValue) => {
     const { particleLife } = this.props;
+    const randomLife = (Math.random() * (1 - 0.6) + 0.6) * particleLife;
     return Animated.parallel([
       Animated.timing(transformValue, {
         toValue: path.length,
-        duration: particleLife,
+        duration: randomLife,
         useNativeDriver: true
       }),
       Animated.timing(opacityValue, {
         toValue: 0,
         ease: Easing.inOut(Easing.quad),
-        delay: particleLife * 0.8,
-        duration: particleLife * 0.2,
+        delay: randomLife * 0.8,
+        duration: randomLife * 0.2,
         useNativeDriver: true
       })
     ]);
